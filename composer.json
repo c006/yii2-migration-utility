@@ -1,0 +1,18 @@
+{
+    "name"       : "c006/yii2-migration-utility",
+    "description": "Automatically writes the create tables for migrations or create tables in general. Uses MySQL",
+    "type"       : "yii2-extension",
+    "keywords"   : ["yii2", "extension", "migration", "tables"],
+    "license"    : "MIT",
+    "authors"    : [
+        {
+            "name" : "Jon Chambers",
+            "email": "jchambers.dev@gmail.com"
+        }
+    ],
+    "autoload"   : {
+        "psr-4": {
+            "c006\\utility\\migration\\": ""
+        }
+    }
+}
