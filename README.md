@@ -12,9 +12,11 @@ It automatically writes out all:
 + column defaults
 + primary keys
 + foreign key
++ ***does not*** add indexes
 
-Note: Foreign keys default to CASCADE / DELETE so you may need to manually change these.
+***Note:*** Foreign keys default to CASCADE / DELETE so you may need to manually change these.
 
+***Note:*** <span style="color:red;">$tableOptions</span> is added so make sure you have a var set.
 Installation
 ------------
 
@@ -75,6 +77,7 @@ Workbench showing the user table:
 Image of demo page:
 
 ![alt text](http://demo.c006.us/images/yii2-migration-utility/output.jpg)
+
 
 
 To Do

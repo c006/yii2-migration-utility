@@ -33,6 +33,8 @@
         public function actionIndex()
         {
 
+
+
             $string = $tables_value = '';
             if ( isset($_POST['MigrationUtility']) ) {
                 $tables_value = $_POST['MigrationUtility']['tables'];
@@ -43,15 +45,15 @@
                     $primary_string = "";
                     foreach ($columns->columns as $column) {
                         $string .= $this->Tab . "'{$column->name}' => '" . strtoupper($column->dbType) . "";
-                        $string .= ($column->unsigned) ? ' UNSIGNED' : '';
                         $string .= ($column->allowNull) ? ' NULL' : ' NOT NULL';
                         $string .= ($column->autoIncrement) ? ' AUTO_INCREMENT' : '';
-                        $string .= (empty($column->defaultValue)) ? ' ' : " DEFAULT '{$column->defaultValue}'";
-                        $primary_string .= ($column->isPrimaryKey) ? '$this->addPrimaryKey(\'' . $column->name . '\', \'{{%' . $table . '}}\',\'' . $column->name . '\' );' . $this->Nw : '';
+                        $string .= (empty($column->defaultValue)) ? '' : " DEFAULT \'{$column->defaultValue}\'";
+                        $primary_string .= ($column->isPrimaryKey) ? $this->Tab . '0 => \'PRIMARY KEY (`' . $column->name . '`)\'' : '';
                         $string .= "'," . $this->Nw;
                     }
-                    $string .= ']);';
-                    $string .= $this->Nw . $primary_string . $this->Nw;
+                    $string .= $primary_string . $this->Nw;
+                    $string .= '], $tableOptions);';
+
                     foreach ($columns->foreignKeys as $fk) {
                         $link_to_column = $link_column = $link_table = '';
                         foreach ($fk as $k => $v) {
