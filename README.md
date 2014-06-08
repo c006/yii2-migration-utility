@@ -16,7 +16,7 @@ It automatically writes out all:
 
 ***Note:*** Foreign keys default to CASCADE / DELETE so you may need to manually change these.
 
-***Note:*** <span style="color:red;">$tableOptions</span> is added so make sure you have a var set.
+***Note:*** ___$tableOptions___ is added so make sure you have a var set.
 Installation
 ------------
 
@@ -65,9 +65,8 @@ The tables must already exist in website schema.
 Usage
 -----
 
-Demo: [http://demo.c006.us/index.php?r=demo/migration-utility](http://demo.c006.us/index.php?r=demo/migration-utility)
 
-##http://<span style="color:red;">[Your_Domain]</span>/utility/index##
+###http://___[Your_Domain]___</span>/utility/index###
 
 Workbench showing the user table:
 
