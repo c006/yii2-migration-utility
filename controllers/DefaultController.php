@@ -33,8 +33,6 @@
         public function actionIndex()
         {
 
-
-
             $string = $tables_value = '';
             if ( isset($_POST['MigrationUtility']) ) {
                 $tables_value = $_POST['MigrationUtility']['tables'];
@@ -53,7 +51,6 @@
                     }
                     $string .= $primary_string . $this->Nw;
                     $string .= '], $tableOptions);';
-
                     foreach ($columns->foreignKeys as $fk) {
                         $link_to_column = $link_column = $link_table = '';
                         foreach ($fk as $k => $v) {
@@ -64,7 +61,7 @@
                                 $link_column    = $v;
                             }
                         }
-                        $string .= '$this->addForeignKey(\'fk_' . $link_table . '_' . $table . '\', \'{{%' . $table . '}}\', \'' . $link_to_column . '\', \'{{%' . $link_table . '}}\', \'' . $link_column . '\', \'CASCADE\', \'DELETE\');' . $this->Nw;
+                        $string .= $this->Nw . '$this->addForeignKey(\'fk_' . $link_table . '_' . $table . '\', \'{{%' . $table . '}}\', \'' . $link_to_column . '\', \'{{%' . $link_table . '}}\', \'' . $link_column . '\', \'CASCADE\', \'DELETE\');' . $this->Nw;
                     }
 
                 }
@@ -72,7 +69,14 @@
             $model         = new MigrationUtility();
             $model->tables = $tables_value;
 
-            return $this->render('index', [ 'model' => $model, 'output' => $string ]);
+            return $this->render('index', [ 'model' => $model, 'output' => $string, 'tables' => self::getTables() ]);
+        }
+
+
+        public function getTables()
+        {
+
+            return \Yii::$app->db->getSchema()->getTableNames('', TRUE);
         }
 
     }
