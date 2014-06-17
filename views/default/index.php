@@ -4,6 +4,7 @@
 
     /** @var $model c006\utility\migration\models\MigrationUtility */
     /** @var $output String */
+    /** @var $tables Array */
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -11,9 +12,18 @@
     ]
 );
 ?>
-    <div>Comma delimited list of tables</div>
-<?= $form->field($model, 'tables') ?>
 
+    <div>Select a table</div>
+
+    <select name="table_select" id="table_select">
+        <option value="">Select</option>
+        <?php foreach ($tables as $table) : ?>
+            <option value="<?= $table ?>"><?= $table ?></option>
+        <?php endforeach ?>
+    </select>
+    <div style="margin-top: 20px;">
+        <?= $form->field($model, 'tables') ?>
+    </div>
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
             <?= Html::submitButton('Run', [ 'class' => 'btn btn-primary', 'name' => 'button-submit' ]) ?>
@@ -21,6 +31,21 @@
     </div>
 
 <?php ActiveForm::end() ?>
+
+    <script type="text/javascript">
+        jQuery(function () {
+            jQuery('#table_select').bind('change',
+                function () {
+                    var val = jQuery(this).val();
+                    if (val) {
+                        var $elm = jQuery('#migrationutility-tables');
+                        val = $elm.val() + ',' + val;
+                        val = val.replace(/^,/gi, '').replace(/\s+/gi, '');
+                        $elm.val(val);
+                    }
+                });
+        });
+    </script>
 
 <?php if ( $output ) : ?>
     <div style="display: block; position: relative;">
