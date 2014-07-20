@@ -13,7 +13,7 @@
     /**
      * Class AppAssets
      *
-     * @package c006\crud\assets
+     * @package c006\utility\migration\assets
      */
     class AppAssets extends AssetBundle
     {
@@ -21,12 +21,11 @@
         /**
          * @inheritdoc
          */
-        public $sourcePath = '@vendor/c006/utility/migration/assets';
+        public $sourcePath = '@vendor/c006/yii2-migration-utility/assets';
         /**
          * @inheritdoc
          */
         public $css = [
-            '',
         ];
         /**
          * @inheritdoc

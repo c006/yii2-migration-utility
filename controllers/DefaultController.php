@@ -7,13 +7,14 @@
      */
     namespace c006\utility\migration\controllers;
 
+    use c006\utility\migration\assets\AppAssets;
     use c006\utility\migration\models\MigrationUtility;
     use yii\web\Controller;
 
     /**
-     * Class UtilityController
+     * Class DefaultController
      *
-     * @package app\controllers
+     * @package c006\utility\migration\controllers
      */
     class DefaultController extends Controller
     {
@@ -36,6 +37,7 @@
             $view = $this->getView();
             AppAssets::register($view);
         }
+
 
         /**
          * @return string
@@ -83,6 +85,9 @@
         }
 
 
+        /**
+         * @return \string[]
+         */
         public function getTables()
         {
 

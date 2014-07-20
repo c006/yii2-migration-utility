@@ -7,14 +7,28 @@
      */
     namespace c006\utility\migration;
 
+    /**
+     * Class Module
+     *
+     * @package c006\utility\migration
+     */
     class Module extends \yii\base\Module
     {
 
+        /**
+         *
+         */
         const VERSION = '0.0.1-dev';
 
+        /**
+         * @var string
+         */
         public $controllerNamespace = 'c006\utility\migration\controllers';
 
 
+        /**
+         *
+         */
         public function init()
         {
 
