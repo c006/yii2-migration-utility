@@ -84,6 +84,26 @@ To Do
 
 Add table data insert statements
 
+
+Errors
+---------
+
+If you see this error.
+
+![Error Message](http://demo.c006.us/images/yii2-submit-spinner/invalid-configuration.jpg)
+
+In this file ```vendor/c006/yii2-migration-utility/assets/AppAssets.php```
+
+comment out these lines.
+
+>
+        public $depends = [
+            // 'yii\web\YiiAsset',
+            // 'yii\widgets\ActiveFormAsset',
+            // 'yii\bootstrap\BootstrapAsset',
+        ];
+
+
 Comments / Suggestions
 --------------------
 
