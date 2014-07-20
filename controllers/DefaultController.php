@@ -28,6 +28,16 @@
 
 
         /**
+         *
+         */
+        function init()
+        {
+
+            $view = $this->getView();
+            AppAssets::register($view);
+        }
+
+        /**
          * @return string
          */
         public function actionIndex()

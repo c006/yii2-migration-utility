@@ -32,20 +32,6 @@
 
 <?php ActiveForm::end() ?>
 
-    <script type="text/javascript">
-        jQuery(function () {
-            jQuery('#table_select').bind('change',
-                function () {
-                    var val = jQuery(this).val();
-                    if (val) {
-                        var $elm = jQuery('#migrationutility-tables');
-                        val = $elm.val() + ',' + val;
-                        val = val.replace(/^,/gi, '').replace(/\s+/gi, '');
-                        $elm.val(val);
-                    }
-                });
-        });
-    </script>
 
 <?php if ( $output ) : ?>
     <div style="display: block; position: relative;">
