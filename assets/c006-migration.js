@@ -4,13 +4,14 @@
 
 
 jQuery(function () {
-    jQuery('#table_select').bind('change',
+    jQuery('#migrationutility-databasetables').bind('change',
         function () {
-            var val = jQuery(this).val();
+            var val = jQuery(this).find('option:selected').text();
             if (val) {
                 var $elm = jQuery('#migrationutility-tables');
-                val = $elm.val() + ',' + val;
-                val = val.replace(/^,/gi, '').replace(/\s+/gi, '');
+                var val2 = $elm.val().replace(val + ',', '');
+                val = val2 + ',' + val;
+                val = val.replace(/,+/gi, ',').replace(/\s+/gi, '').replace(/^,/,'');
                 $elm.val(val);
             }
         });

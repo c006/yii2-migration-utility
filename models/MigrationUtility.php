@@ -16,6 +16,20 @@
          * @var string
          */
         public $tables = '';
+        /**
+         * @var string
+         */
+        public $databaseType = '';
+
+        /**
+         * @var array
+         */
+        public $databaseTables = [ ];
+
+        /**
+         * @var bool
+         */
+        public $addIfThenStatements = TRUE;
 
 
         /**
@@ -25,8 +39,10 @@
         {
 
             return [
-                [ [ 'tables' ], 'required' ],
+                [ [ 'tables', 'databaseTables', 'databaseType' ], 'required' ],
             ];
         }
+
+
 
     }

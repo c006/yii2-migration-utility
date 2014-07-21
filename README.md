@@ -4,6 +4,13 @@ Yii2 Migration Utility
 This is a simple utility that writes the create table statement for you.
 The table(s) must already exist.
 
+Supports
+
++ MySQL
++ MsSQL
++ PgSQL
++ SQLite
+
 It automatically writes out all:
 
 + tables
@@ -40,10 +47,6 @@ to the require section of your `composer.json` file.
 Required
 --------
 
-+ ***MySQL***
-
-Currently this is only setup to MySQL.
-
 Update either ***config/web.php*** (basic) or ***config/main.php*** (advanced)
 
 >
@@ -61,7 +64,6 @@ Update either ***config/web.php*** (basic) or ***config/main.php*** (advanced)
 The tables must already exist in website schema.
 
 
-
 Usage
 -----
 
@@ -75,14 +77,8 @@ Workbench showing the user table:
 
 Image of demo page:
 
-![alt text](http://demo.c006.us/images/yii2-migration-utility/output.jpg)
+![alt text](http://demo.c006.us/images/yii2-migration-utility/screenshot.jpg)
 
-
-
-To Do
-------
-
-Add table data insert statements
 
 
 Errors
