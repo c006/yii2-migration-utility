@@ -1,6 +1,8 @@
 Yii2 Migration Utility
 ===================
 
+**Updated July 21, 2014**
+
 This is a simple utility that writes the create table statement for you.
 The table(s) must already exist.
 
@@ -24,6 +26,11 @@ It automatically writes out all:
 ***Note:*** Foreign keys default to CASCADE / DELETE so you may need to manually change these.
 
 ***Note:*** ___$tableOptions___ is added so make sure you have a var set.
+
+***Note:*** ___$dbType___ is used with the if/then statements.
+
+```$dbType = Yii::$app->db->driverName;```
+
 Installation
 ------------
 
@@ -106,26 +113,6 @@ Comments / Suggestions
 Please provide any helpful feedback or requests.
 
 Thanks.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
