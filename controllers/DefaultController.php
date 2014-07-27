@@ -10,8 +10,8 @@
     use c006\utility\migration\assets\AppAssets;
     use c006\utility\migration\assets\AppUtility;
     use c006\utility\migration\models\MigrationUtility;
-    use Yii;
     use yii\web\Controller;
+    use Yii;
 
     /**
      * Class DefaultController
@@ -54,12 +54,15 @@
                 $ifThen       = $_POST['MigrationUtility']['addIfThenStatements'];
                 $tables       = explode(',', str_replace(' ', '', $tables_value));
                 foreach ($tables as $table) {
-                    $columns = \Yii::$app->db->getTableSchema($table);
+                    $columns        = \Yii::$app->db->getTableSchema($table);
+                    $prefix         = \Yii::$app->db->tablePrefix;
+                    $table_prepared = str_replace($prefix, '', $table);
                     foreach ($databaseType as $dbType) {
                         if ( $ifThen )
                             $string .= $this->Nw . 'if ($dbType == "' . $dbType . '") {';
                         $string .= $this->Nw . '/* ' . strtoupper($dbType) . ' */';
-                        $string .= $this->Nw . '$this->createTable(\'{{%' . $table . '}}\', [' . $this->Nw;
+                        //                        $string .= $this->Nw . '$this->createTable(\'{{%' . $table . '}}\', [' . $this->Nw;
+                        $string .= $this->Nw . '$this->createTable(\'{{%' . $table_prepared . '}}\', [' . $this->Nw;
                         $primary_string = "";
                         foreach ($columns->columns as $column) {
                             $appUtility = new AppUtility($column, $dbType);
