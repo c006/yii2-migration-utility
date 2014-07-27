@@ -113,7 +113,7 @@ Updates
 + Table prefix added
 + Column defaultValue allows for array/expression
 
-A big thank you to **Insolita** for provides the updated code.
+A big thank you to **Insolita** for providing the updated code.
 
 
 
