@@ -1,7 +1,7 @@
 Yii2 Migration Utility
 ===================
 
-**Updated July 21, 2014**
+**Updated July 27, 2014**
 
 This is a simple utility that writes the create table statement for you.
 The table(s) must already exist.
@@ -105,6 +105,16 @@ comment out these lines.
             // 'yii\widgets\ActiveFormAsset',
             // 'yii\bootstrap\BootstrapAsset',
         ];
+
+
+Updates
+--------
+
++ Table prefix added
++ Column defaultValue allows for array/expression
+
+A big thank you to **Insolita** for provides the updated code.
+
 
 
 Comments / Suggestions
