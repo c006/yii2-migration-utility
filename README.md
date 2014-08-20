@@ -112,8 +112,13 @@ Updates
 
 + Table prefix added
 + Column defaultValue allows for array/expression
++ Enum options escaping and uppercase
 
-A big thank you to [Insolita](https://github.com/Insolita) for providing the updated code.
+
+Contributors
+-----------
+
++ [Insolita](https://github.com/Insolita) 
 
 
 
