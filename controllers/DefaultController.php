@@ -52,12 +52,14 @@
                 $tables_value = $_POST['MigrationUtility']['tables'];
                 $databaseType = $_POST['MigrationUtility']['databaseType'];
                 $ifThen       = $_POST['MigrationUtility']['addIfThenStatements'];
+                $tableOptions=$_POST['MigrationUtility']['tableOptions'];
                 $tables       = explode(',', str_replace(' ', '', $tables_value));
                 foreach ($tables as $table) {
                     $columns        = \Yii::$app->db->getTableSchema($table);
                     $prefix         = \Yii::$app->db->tablePrefix;
                     $table_prepared = str_replace($prefix, '', $table);
                     foreach ($databaseType as $dbType) {
+                        $string.='$tableOptions="'.$tableOptions.'";'.$this->Nw;
                         if ( $ifThen )
                             $string .= $this->Nw . 'if ($dbType == "' . $dbType . '") {';
                         $string .= $this->Nw . '/* ' . strtoupper($dbType) . ' */';

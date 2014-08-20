@@ -28,7 +28,9 @@
     <div style="margin-top: 20px;">
         <?= $form->field($model, 'addIfThenStatements')->checkbox() ?>
     </div>
-
+    <div style="margin-top: 20px;">
+        <?= $form->field($model, 'tableOptions')->textInput() ?>
+    </div>
 
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">

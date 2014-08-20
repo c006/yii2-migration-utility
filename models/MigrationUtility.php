@@ -31,6 +31,10 @@
          */
         public $addIfThenStatements = TRUE;
 
+        /**
+         * @var string
+         */
+        public $tableOptions = '';
 
         /**
          * @return array
@@ -40,6 +44,7 @@
 
             return [
                 [ [ 'tables', 'databaseTables', 'databaseType' ], 'required' ],
+                ['tableOptions','default','value'=>'']
             ];
         }
 

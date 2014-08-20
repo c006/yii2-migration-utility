@@ -43,8 +43,20 @@
         private function runMySql()
         {
 
-            if ( isset($this->array['dbType']) )
-                $this->string .= $this->Tab . "'{$this->array['name']}' => '" . strtoupper($this->array['dbType']) . "";
+             if (isset($this->array['dbType']))
+                {
+                    if(strpos($this->array['dbType'],'enum')!==false){
+                        $this->array['dbType']=str_replace('enum','ENUM',$this->array['dbType']);
+                        $this->array['dbType']=str_replace("'","\\'",$this->array['dbType']);
+                        $this->string .= $this->Tab . "'{$this->array['name']}' => '" . $this->array['dbType']. "";
+                    }elseif(strpos($this->array['dbType'],'set')!==false){
+                        $this->array['dbType']=str_replace('set','SET',$this->array['dbType']);
+                        $this->array['dbType']=str_replace("'","\\'",$this->array['dbType']);
+                        $this->string .= $this->Tab . "'{$this->array['name']}' => '" . $this->array['dbType']. "";
+                    }else{
+                        $this->string .= $this->Tab . "'{$this->array['name']}' => '" . strtoupper($this->array['dbType']) . "";
+                    }
+                }
             if ( isset($this->array['allowNull']) )
                 $this->string .= ($this->array['allowNull']) ? ' NULL' : ' NOT NULL';
             if ( isset($this->array['autoIncrement']) )
