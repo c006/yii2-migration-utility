@@ -85,7 +85,7 @@
                                         $link_column    = $v;
                                     }
                                 }
-                                $string .= $this->Nw . '$this->addForeignKey(\'fk_' . $link_table . '_' . $table . '\', \'{{%' . $table . '}}\', \'' . $link_to_column . '\', \'{{%' . $link_table . '}}\', \'' . $link_column . '\', \'CASCADE\', \'DELETE\');' . $this->Nw;
+                                $string .= $this->Nw . '$this->addForeignKey(\'fk_' . $link_table . '_' . $table . '\', \'{{%' . $table . '}}\', \'' . $link_to_column . '\', \'{{%' . $link_table . '}}\', \'' . $link_column . '\', \'CASCADE\', \'CASCADE\');' . $this->Nw;
                             }
                         }
                         if ( $ifThen )
