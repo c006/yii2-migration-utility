@@ -119,6 +119,7 @@ Contributors
 -----------
 
 + [Insolita](https://github.com/Insolita) 
++ [Deele](https://github.com/Deele)
 
 
 
