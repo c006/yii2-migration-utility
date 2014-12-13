@@ -85,7 +85,7 @@
                                                 '\'{{%' . $link_table . '}}\', '.
                                                 '\'' . $link_column . '\', '.
                                                 '\'CASCADE\', '.
-                                                '\'CASCADE\' '.
+                                                '\'DELETE\' '.
                                             ');'
                                         );
                                     }

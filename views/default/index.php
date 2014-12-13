@@ -9,7 +9,7 @@ use yii\helpers\Html;
 ?>
 
 <?php $form = ActiveForm::begin([
-                                    'id' => 'table-form',
+                                    'id' => 'form-submit',
                                 ]
 );
 ?>
@@ -18,6 +18,7 @@ use yii\helpers\Html;
 <?php if (class_exists('c006\\spinner\\SubmitSpinner')) : ?>
     <?= c006\spinner\SubmitSpinner::widget(
         [
+            'form_id'                => $form->id,
             'bg_color'               => '#444444',
             'bg_opacity'             => 0.8,
             'spin_speed'             => 3.5,
