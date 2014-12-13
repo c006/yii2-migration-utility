@@ -1,7 +1,7 @@
 Yii2 Migration Utility
 ===================
 
-**Updated July 27, 2014**
+**December 12, 2014**
 
 This is a simple utility that writes the create table statement for you.
 The table(s) must already exist.
