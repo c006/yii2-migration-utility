@@ -42,19 +42,15 @@ use yii\helpers\Html;
 <div style="margin-top: 20px;">
     <?= $form->field($model, 'databaseTables')->dropDownList(['00' => ' '] + $tables) ?>
 </div>
-
-
 <div style="margin-top: 20px;">
     <?= $form->field($model, 'tables') ?>
 </div>
-
 <div style="margin-top: 20px;">
     <?= $form->field($model, 'addIfThenStatements')->checkbox() ?>
 </div>
 <div style="margin-top: 20px;">
     <?= $form->field($model, 'tableOptions')->textInput() ?>
 </div>
-
 <div class="form-group">
     <div class="col-lg-offset-1 col-lg-11">
         <?= Html::submitButton('Run', ['class' => 'btn btn-primary', 'name' => 'button-submit']) ?>

@@ -1,53 +1,52 @@
 <?php
 
-    namespace c006\utility\migration\models;
+namespace c006\utility\migration\models;
 
-    use yii\base\Model;
+use yii\base\Model;
+
+/**
+ * Class MigrationUtility
+ *
+ * @package c006\utility\migration\models
+ */
+class MigrationUtility extends Model
+{
 
     /**
-     * Class MigrationUtility
-     *
-     * @package c006\utility\migration\models
+     * @var string
      */
-    class MigrationUtility extends Model
+    public $tables = '';
+
+    /**
+     * @var string
+     */
+    public $databaseType = '';
+
+    /**
+     * @var array
+     */
+    public $databaseTables = [];
+
+    /**
+     * @var bool
+     */
+    public $addIfThenStatements = TRUE;
+
+    /**
+     * @var string
+     */
+    public $tableOptions = '';
+
+    /**
+     * @return array
+     */
+    function rules()
     {
-
-        /**
-         * @var string
-         */
-        public $tables = '';
-        /**
-         * @var string
-         */
-        public $databaseType = '';
-
-        /**
-         * @var array
-         */
-        public $databaseTables = [ ];
-
-        /**
-         * @var bool
-         */
-        public $addIfThenStatements = TRUE;
-
-        /**
-         * @var string
-         */
-        public $tableOptions = '';
-
-        /**
-         * @return array
-         */
-        function rules()
-        {
-
-            return [
-                [ [ 'tables', 'databaseTables', 'databaseType' ], 'required' ],
-                ['tableOptions','default','value'=>'']
-            ];
-        }
-
-
-
+        return [
+            [['tables', 'databaseTables', 'databaseType'], 'required'],
+            ['tableOptions', 'default', 'value' => '']
+        ];
     }
+
+
+}
