@@ -1,8 +1,6 @@
 Yii2 Migration Utility
 ===================
 
-**Updated July 27, 2014**
-
 This is a simple utility that writes the create table statement for you.
 The table(s) must already exist.
 
@@ -71,40 +69,19 @@ Update either ***config/web.php*** (basic) or ***config/main.php*** (advanced)
 The tables must already exist in website schema.
 
 
+Demo
+-------
+
+Demo: [http://demo.c006.us](http://demo.c006.us)
+
+
 Usage
 -----
 
 
 ###http://___[Your_Domain]___</span>/utility/index###
 
-Workbench showing the user table:
 
-![alt text](http://demo.c006.us/images/yii2-migration-utility/workbench.jpg)
-
-
-Image of demo page:
-
-![alt text](http://demo.c006.us/images/yii2-migration-utility/screenshot.jpg)
-
-
-
-Errors
----------
-
-If you see this error.
-
-![Error Message](http://demo.c006.us/images/yii2-submit-spinner/invalid-configuration.jpg)
-
-In this file ```vendor/c006/yii2-migration-utility/assets/AppAssets.php```
-
-comment out these lines.
-
->
-        public $depends = [
-            // 'yii\web\YiiAsset',
-            // 'yii\widgets\ActiveFormAsset',
-            // 'yii\bootstrap\BootstrapAsset',
-        ];
 
 
 Updates
