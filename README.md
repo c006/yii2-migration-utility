@@ -1,8 +1,15 @@
 Yii2 Migration Utility
 ===================
 
-This is a simple utility that writes the create table statement for you.
-The table(s) must already exist.
+**Major update**
+Now supports table indexes, table options for each database type and table data.
+
+
+
+
+
+This is a utility that writes the create table statement for migrations.
+The table(s), indexes, foreign keys must already exist.
 
 Supports
 
@@ -19,15 +26,9 @@ It automatically writes out all:
 + column defaults
 + primary keys
 + foreign key
-+ ***does not*** add indexes
++ indexes
++ Table data
 
-***Note:*** Foreign keys default to CASCADE / DELETE so you may need to manually change these.
-
-***Note:*** ___$tableOptions___ is added so make sure you have a var set.
-
-***Note:*** ___$dbType___ is used with the if/then statements.
-
-```$dbType = Yii::$app->db->driverName;```
 
 Installation
 ------------
@@ -79,7 +80,11 @@ Usage
 -----
 
 
-###http://___[Your_Domain]___</span>/utility/index###
+###http://___[Your_Domain]___</span>/utility###
+
+or
+
+###http://___[Your_Domain]___</span>/?r=/utility###
 
 
 
@@ -87,9 +92,9 @@ Usage
 Updates
 --------
 
-+ Table prefix added
-+ Column defaultValue allows for array/expression
-+ Enum options escaping and uppercase
++ Table options per database type
++ Table indexes
++ Table data
 
 
 Contributors
