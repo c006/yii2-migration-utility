@@ -4,7 +4,7 @@ Yii2 Migration Utility
 **Major update**
 Now supports table indexes, table options for each database type and table data.
 
-
+fk - uses link table and numbering, table / columns had potential to be too long
 
 
 
