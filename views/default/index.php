@@ -48,6 +48,23 @@ $array = ['CASCADE' => 'CASCADE', 'NO ACTION' => 'NO ACTION', 'RESTRICT' => 'RES
         min-width : 100%;
     }
 
+    .button-style {
+        display               : inline-block;
+        padding               : 2px 10px;
+        margin                : 0;
+        margin-left           : 20px;
+
+        font-size             : 0.9em;
+        font-weight           : normal;
+
+        background-color      : rgba(155, 202, 242, 0.56);
+        -webkit-border-radius : 5px;
+        -moz-border-radius    : 5px;
+        border-radius         : 5px;
+
+        cursor                : pointer;
+    }
+
 </style>
 
 <div class="form">
@@ -94,13 +111,21 @@ $array = ['CASCADE' => 'CASCADE', 'NO ACTION' => 'NO ACTION', 'RESTRICT' => 'RES
             <?= $form->field($model, 'databaseTables')->dropDownList(['00' => ' '] + $tables)->label('Tables') ?>
         </div>
         <div style="width: 20%; vertical-align: middle; text-align: right">
-            <button id="button-add-all" class="btn btn-primary" type="button">Add all tables</button>
+            <?= Html::button('Add All Tables', ['class' => 'btn btn-success', 'id' => 'button-add-all']) ?>
         </div>
     </div>
 
-    <?= $form->field($model, 'tables')->label('Tables to Process') ?>
+    <div class="inline-elements">
+        <div style="width: 80%">
+            <?= $form->field($model, 'tables')
+                ->label('Tables to Process')
+                ->hint('Change to textarea and back to easily view tables') ?>
+        </div>
+        <div style="width: 20%; vertical-align: middle; text-align: right">
+            <?= Html::button('Change View', ['class' => 'btn btn-success', 'id' => 'button-tables-convert']) ?>
+        </div>
+    </div>
 
-    <? // $form->field($model, 'addIfThenStatements')->checkbox() ?>
 
     <div class="inline-elements">
         <div style="width: 50%">
@@ -115,7 +140,7 @@ $array = ['CASCADE' => 'CASCADE', 'NO ACTION' => 'NO ACTION', 'RESTRICT' => 'RES
 
 
     <div class="form-group">
-        <?= Html::submitButton('Run', ['class' => 'btn btn-primary', 'name' => 'button-submit']) ?>
+        <?= Html::submitButton('Run', ['class' => 'btn btn-primary', 'name' => 'button-submit', 'id' => 'button-submit']) ?>
     </div>
 
     <?php ActiveForm::end() ?>
@@ -194,6 +219,30 @@ $array = ['CASCADE' => 'CASCADE', 'NO ACTION' => 'NO ACTION', 'RESTRICT' => 'RES
             .click(function () {
                 jQuery('#code-output-drop').selectText();
             });
-
+        jQuery('#button-tables-convert')
+            .click(function () {
+                var $this = jQuery('#migrationutility-tables');
+                var $parent = $this.parent();
+                if ($this.attr('type') == "text") {
+                    var $textarea = jQuery(document.createElement('textarea'));
+                    $textarea.attr('id', $this.attr('id'));
+                    $textarea.attr('type', 'textarea');
+                    $textarea.attr('class', $this.attr('class'));
+                    $textarea.attr('name', $this.attr('name'));
+                    $textarea.html($this.val().replace(/\s+/g, '').replace(/,/g, "\n"));
+                    $this.remove();
+                    jQuery($textarea).insertAfter($parent.find('> label'));
+                } else {
+                    var $input = jQuery(document.createElement('input'));
+                    $input.attr('id', $this.attr('id'));
+                    $input.attr('type', 'text');
+                    $input.attr('class', $this.attr('class'));
+                    $input.attr('name', $this.attr('name'));
+                    $input.val($this.html().replace(/[\r\n]/g, ", "));
+                    $this.remove();
+                    jQuery($input).insertAfter($parent.find('> label'));
+                }
+                jQuery('#migrationutility-tables').blur();
+            });
     });
 </script>

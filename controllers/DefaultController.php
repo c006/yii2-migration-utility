@@ -53,7 +53,9 @@ class DefaultController extends Controller
             $tableOptions['pgsql'] = [$_POST['MigrationUtility']['pgsql'], $_POST['MigrationUtility']['pgsql_options']];
             $tableOptions['sqlite'] = [$_POST['MigrationUtility']['sqlite'], $_POST['MigrationUtility']['sqlite_options']];
 
-            $tables = explode(',', trim($tables_value));
+            $tables = trim($tables_value);
+            $tables = preg_replace('/\s+/', ',', $tables);
+            $tables = explode(',', $tables);
 
             $output->addStr('$tables = Yii::$app->db->schema->getTableNames();');
             $output->addStr('$dbType = $this->db->driverName;');
@@ -106,18 +108,17 @@ class DefaultController extends Controller
                                 } else {
                                     $link_to_column = $k;
                                     $link_column = $v;
-                                    $str =
-                                        '$this->addForeignKey(' .
-                                        '\'fk_' . $link_table . '_' . $table . '\', ' .
-                                        '\'{{%' . $table . '}}\', ' .
-                                        '\'' . $link_to_column . '\', ' .
-                                        '\'{{%' . $link_table . '}}\', ' .
-                                        '\'' . $link_column . '\', ' .
-                                        '\'' . $foreignKeyOnDelete . '\', ' .
-                                        '\'' . $foreignKeyOnUpdate . '\' ' .
-                                        ');';
+                                    $str = '$this->addForeignKey(';
+                                    $str .= '\'fk_' . $link_table . '_' . explode('.', microtime('usec'))[1] . '_' . substr("000" . sizeof($array['fk']), 2) . "',";
+                                    $str .= '\'{{%' . $table . '}}\', ';
+                                    $str .= '\'' . $link_to_column . '\', ';
+                                    $str .= '\'{{%' . $link_table . '}}\', ';
+                                    $str .= '\'' . $link_column . '\', ';
+                                    $str .= '\'' . $foreignKeyOnDelete . '\', ';
+                                    $str .= '\'' . $foreignKeyOnUpdate . '\' ';
+                                    $str .= ');';
                                     $array['fk'][] = $str;
-//                                    $output->addStr($str);
+
                                 }
                             }
                         }
@@ -132,7 +133,7 @@ class DefaultController extends Controller
 
                             $unique = ($item['Non_unique']) ? '' : '_UNIQUE';
                             $array['indexes'][] = [
-                                'name'   => 'idx' . $unique . '_' . $item['Column_name'] . '_' . explode('.', microtime('usec'))[1] . '_' . substr("0" . sizeof($array['indexes']), -2),
+                                'name'   => 'idx' . $unique . '_' . $item['Column_name'] . '_' . explode('.', microtime('usec'))[1] . '_' . substr("000" . sizeof($array['indexes']), -2),
                                 'unique' => (($item['Non_unique']) ? 0 : 1),
                                 'column' => $item['Column_name'],
                                 'table'  => $item['Table'],
