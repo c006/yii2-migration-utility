@@ -5,8 +5,6 @@ use c006\utility\migration\assets\AppAssets;
 use c006\utility\migration\assets\AppUtility;
 use c006\utility\migration\models\MigrationUtility;
 use Yii;
-use yii\base\Object;
-use yii\web\Controller;
 
 /**
  * Class DefaultController
@@ -68,8 +66,8 @@ class DefaultController extends Controller
                 if (empty($table)) {
                     continue;
                 }
-                $columns = \Yii::$app->db->getTableSchema($table);
-                $prefix = \Yii::$app->db->tablePrefix;
+                $columns = Yii::$app->db->getTableSchema($table);
+                $prefix = Yii::$app->db->tablePrefix;
                 $table_prepared = str_replace($prefix, '', $table);
                 $output->tabLevel = $initialTabLevel;
                 foreach ($tableOptions as $dbType => $item) {
@@ -87,14 +85,17 @@ class DefaultController extends Controller
                     $output->tabLevel++;
                     // Ordinary columns
                     $k = 0;
+                    $pk = false;
                     foreach ($columns->columns as $column) {
                         $appUtility = new AppUtility($column, $dbType);
                         $output->addStr($appUtility->string . "',");
-                        if ($column->isPrimaryKey) {
+                        if ($column->isPrimaryKey && !$pk) {
                             $output->addStr($k . " => 'PRIMARY KEY (`" . $column->name . "`)',");
+                            $pk = true;
+                        } elseif ($column->isPrimaryKey && $pk) {
+                            $output->addStr($k . " => 'KEY (`" . $column->name . "`)',");
                         }
                         $k++;
-
                     }
 
                     $output->tabLevel--;
@@ -118,7 +119,6 @@ class DefaultController extends Controller
                                     $str .= '\'' . $foreignKeyOnUpdate . '\' ';
                                     $str .= ');';
                                     $array['fk'][] = $str;
-
                                 }
                             }
                         }
@@ -267,7 +267,7 @@ class DefaultController extends Controller
      */
     public function getTables()
     {
-        return \Yii::$app->db->getSchema()->getTableNames('', TRUE);
+        return Yii::$app->db->getSchema()->getTableNames('', TRUE);
     }
 
 }
