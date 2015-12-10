@@ -4,6 +4,7 @@ namespace c006\utility\migration\controllers;
 use c006\utility\migration\assets\AppAssets;
 use c006\utility\migration\assets\AppUtility;
 use c006\utility\migration\models\MigrationUtility;
+use yii\web\JqueryAsset;
 use Yii;
 
 /**
@@ -23,6 +24,7 @@ class DefaultController extends Controller
     {
         $view = $this->getView();
         AppAssets::register($view);
+        JqueryAsset::register($view);
     }
 
     /**
