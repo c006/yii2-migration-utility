@@ -1,8 +1,9 @@
 Yii2 Migration Utility
 ===================
 
-**Current Version - v1.1.0**
+**Current Version - v1.1.1**
 
++ Add JqueryAsset to DefaultController
 
 This is a utility that writes the create table statement for migrations.
 The table(s), indexes, foreign keys must already exist.
@@ -102,6 +103,7 @@ Contributors
 + [Insolita](https://github.com/Insolita) 
 + [Deele](https://github.com/Deele)
 + Sedov Sergey
++ fedemotta
 
 
 
