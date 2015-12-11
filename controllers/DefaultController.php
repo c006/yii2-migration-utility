@@ -5,6 +5,8 @@ use c006\utility\migration\assets\AppAssets;
 use c006\utility\migration\assets\AppUtility;
 use c006\utility\migration\models\MigrationUtility;
 use yii\web\JqueryAsset;
+use yii\base\Controller;
+use yii\base\Object;
 use Yii;
 
 /**
