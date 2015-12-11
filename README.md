@@ -1,7 +1,7 @@
 Yii2 Migration Utility
 ===================
 
-**Current Version - v1.1.1**
+**Current Version - v1.1.2**
 
 + Add JqueryAsset to DefaultController
 
