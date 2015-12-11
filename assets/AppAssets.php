@@ -21,7 +21,7 @@ class AppAssets extends AssetBundle
     /**
      * @inheritdoc
      */
-    public $sourcePath = '@vendor/c006/yii2-migration-utility/assets';
+    public $sourcePath = '@vendor/weison-tech/yii2-migration-utility/assets';
 
     /**
      * @inheritdoc

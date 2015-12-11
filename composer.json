@@ -1,5 +1,5 @@
 {
-  "name": "c006/yii2-migration-utility",
+  "name": "weison-tech/yii2-migration-utility",
   "description": "Automatically writes the create tables for migrations or create tables in general",
   "type": "yii2-extension",
   "keywords": [
@@ -11,8 +11,8 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Jon Chambers",
-      "email": "jchambers.dev@gmail.com"
+      "name": "xiaomalover",
+      "email": "xiaomalover@gmail.com"
     }
   ],
   "autoload": {
