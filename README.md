@@ -38,13 +38,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-source "c006/yii2-migration-utility" "dev-master"
+php composer.phar require --prefer-source "weison-tech/yii2-migration-utility" "dev-master"
 ```
 
 or add
 
 ```
-"c006/yii2-migration-utility": "dev-master"
+"weison-tech/yii2-migration-utility": "dev-master"
 ```
 
 to the require section of your `composer.json` file.
