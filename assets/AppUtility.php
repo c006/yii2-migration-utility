@@ -75,7 +75,7 @@ class AppUtility
         if (isset($this->array['allowNull']))
             $this->string .= ($this->array['allowNull']) ? ' NULL' : ' NOT NULL';
         if (isset($this->array['defaultValue']))
-            $this->string .= (empty($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
+            $this->string .= (is_null($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
 
     }
 
@@ -100,7 +100,7 @@ class AppUtility
             $this->string .= ($this->array['autoIncrement']) ? ' AUTO_INCREMENT' : '';
         if (isset($this->array['defaultValue']))
             if (!is_array($this->array['defaultValue'])) {
-                $this->string .= (empty($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
+                $this->string .= (is_null($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
             } else {
                 $this->string .= (empty($this->array['defaultValue'])) ? '' : " DEFAULT " . $this->array['defaultValue']['expression'] . " ";
             }
@@ -115,7 +115,7 @@ class AppUtility
         if (isset($this->array['autoIncrement']))
             $this->string .= ($this->array['autoIncrement']) ? ' AUTOINCREMENT' : '';
         if (isset($this->array['defaultValue']))
-            $this->string .= (empty($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
+            $this->string .= (is_null($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
 
     }
 
@@ -128,7 +128,7 @@ class AppUtility
         if (isset($this->array['allowNull']))
             $this->string .= ($this->array['allowNull']) ? ' NULL' : ' NOT NULL';
         if (isset($this->array['defaultValue']))
-            $this->string .= (empty($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
+            $this->string .= (is_null($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
 
     }
 
