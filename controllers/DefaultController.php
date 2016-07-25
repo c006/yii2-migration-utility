@@ -4,9 +4,10 @@ namespace c006\utility\migration\controllers;
 use c006\utility\migration\assets\AppAssets;
 use c006\utility\migration\assets\AppUtility;
 use c006\utility\migration\models\MigrationUtility;
-use Yii;
 use yii\base\Object;
+use yii\web\JqueryAsset;
 use yii\web\Controller;
+use Yii;
 
 /**
  * Class DefaultController
@@ -25,6 +26,7 @@ class DefaultController extends Controller
     {
         $view = $this->getView();
         AppAssets::register($view);
+        JqueryAsset::register($view);
     }
 
     /**
@@ -68,8 +70,8 @@ class DefaultController extends Controller
                 if (empty($table)) {
                     continue;
                 }
-                $columns = \Yii::$app->db->getTableSchema($table);
-                $prefix = \Yii::$app->db->tablePrefix;
+                $columns = Yii::$app->db->getTableSchema($table);
+                $prefix = Yii::$app->db->tablePrefix;
                 $table_prepared = str_replace($prefix, '', $table);
                 $output->tabLevel = $initialTabLevel;
                 foreach ($tableOptions as $dbType => $item) {
@@ -87,14 +89,17 @@ class DefaultController extends Controller
                     $output->tabLevel++;
                     // Ordinary columns
                     $k = 0;
+                    $pk = false;
                     foreach ($columns->columns as $column) {
                         $appUtility = new AppUtility($column, $dbType);
                         $output->addStr($appUtility->string . "',");
-                        if ($column->isPrimaryKey) {
+                        if ($column->isPrimaryKey && !$pk) {
                             $output->addStr($k . " => 'PRIMARY KEY (`" . $column->name . "`)',");
+                            $pk = true;
+                        } elseif ($column->isPrimaryKey && $pk) {
+                            $output->addStr($k . " => 'KEY (`" . $column->name . "`)',");
                         }
                         $k++;
-
                     }
 
                     $output->tabLevel--;
@@ -118,7 +123,6 @@ class DefaultController extends Controller
                                     $str .= '\'' . $foreignKeyOnUpdate . '\' ';
                                     $str .= ');';
                                     $array['fk'][] = $str;
-
                                 }
                             }
                         }
@@ -228,46 +232,12 @@ class DefaultController extends Controller
         );
     }
 
-
-    protected function mysql_direct($table)
-    {
-        print_r(Yii::$app->db);
-        exit;
-
-        $link = mysql_connect('mysql_host', 'mysql_user', 'mysql_password')
-        or die('Could not connect: ' . mysql_error());
-        echo 'Connected successfully';
-        mysql_select_db('my_database') or die('Could not select database');
-
-// Performing SQL query
-        $query = 'SELECT * FROM my_table';
-        $result = mysql_query($query) or die('Query failed: ' . mysql_error());
-
-// Printing results in HTML
-        echo "<table>\n";
-        while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
-            echo "\t<tr>\n";
-            foreach ($line as $col_value) {
-                echo "\t\t<td>$col_value</td>\n";
-            }
-            echo "\t</tr>\n";
-        }
-        echo "</table>\n";
-
-// Free resultset
-        mysql_free_result($result);
-
-// Closing connection
-        mysql_close($link);
-
-    }
-
     /**
      * @return \string[]
      */
     public function getTables()
     {
-        return \Yii::$app->db->getSchema()->getTableNames('', TRUE);
+        return Yii::$app->db->getSchema()->getTableNames('', TRUE);
     }
 
 }

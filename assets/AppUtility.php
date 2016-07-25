@@ -12,13 +12,13 @@ use Yii;
 class AppUtility
 {
 
-    public  $string = '';
+    public $string = '';
 
-    private $Tab    = "\t";
+    private $Tab = "\t";
 
-    private $Nw     = "\n";
+    private $Nw = "\n";
 
-    private $array  = [];
+    private $array = [];
 
     private $dbType = '';
 
@@ -53,11 +53,11 @@ class AppUtility
             if (is_array($array_in)) {
                 foreach ($array_in as $key => $value) {
                     if (is_object($value)) {
-                        $array[$key] = self::objectToArray($value);
+                        $array[ $key ] = self::objectToArray($value);
                     } elseif (is_array($value)) {
-                        $array[$key] = self::objectToArray($value);
+                        $array[ $key ] = self::objectToArray($value);
                     } else {
-                        $array[$key] = $value;
+                        $array[ $key ] = $value;
                     }
                 }
             }
@@ -75,7 +75,7 @@ class AppUtility
         if (isset($this->array['allowNull']))
             $this->string .= ($this->array['allowNull']) ? ' NULL' : ' NOT NULL';
         if (isset($this->array['defaultValue']))
-            $this->string .= (empty($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
+            $this->string .= (is_null($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
 
     }
 
@@ -100,7 +100,7 @@ class AppUtility
             $this->string .= ($this->array['autoIncrement']) ? ' AUTO_INCREMENT' : '';
         if (isset($this->array['defaultValue']))
             if (!is_array($this->array['defaultValue'])) {
-                $this->string .= (empty($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
+                $this->string .= (is_null($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
             } else {
                 $this->string .= (empty($this->array['defaultValue'])) ? '' : " DEFAULT " . $this->array['defaultValue']['expression'] . " ";
             }
@@ -115,7 +115,7 @@ class AppUtility
         if (isset($this->array['autoIncrement']))
             $this->string .= ($this->array['autoIncrement']) ? ' AUTOINCREMENT' : '';
         if (isset($this->array['defaultValue']))
-            $this->string .= (empty($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
+            $this->string .= (is_null($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
 
     }
 
@@ -128,7 +128,7 @@ class AppUtility
         if (isset($this->array['allowNull']))
             $this->string .= ($this->array['allowNull']) ? ' NULL' : ' NOT NULL';
         if (isset($this->array['defaultValue']))
-            $this->string .= (empty($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
+            $this->string .= (is_null($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
 
     }
 

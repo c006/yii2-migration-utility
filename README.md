@@ -1,19 +1,18 @@
 Yii2 Migration Utility
 ===================
 
-**Major update**
-Now supports table indexes, table options for each database type and table data.
+**Current Version - v1.1.2**
 
-fk - uses link table and numbering, table / columns had potential to be too long
-
-
++ Add JqueryAsset to DefaultController
 
 This is a utility that writes the create table statement for migrations.
 The table(s), indexes, foreign keys must already exist.
 
+Foreign Key - uses link table and numbering, table / columns had potential to be too long
+
 Supports
 
-+ MySQL
++ MySQL 
 + MsSQL
 + PgSQL
 + SQLite
@@ -25,6 +24,7 @@ It automatically writes out all:
 + column types
 + column defaults
 + primary keys
++ composite keys
 + foreign key
 + indexes
 + Table data
@@ -102,6 +102,8 @@ Contributors
 
 + [Insolita](https://github.com/Insolita) 
 + [Deele](https://github.com/Deele)
++ Sedov Sergey
++ fedemotta
 
 
 
