@@ -111,7 +111,7 @@ $array = ['CASCADE' => 'CASCADE', 'NO ACTION' => 'NO ACTION', 'RESTRICT' => 'RES
             <?= $form->field($model, 'databaseTables')->dropDownList(['00' => ' '] + $tables)->label('Tables') ?>
         </div>
         <div style="width: 20%; vertical-align: middle; text-align: right">
-            <?= Html::button('Add All Tables', ['class' => 'btn btn-success', 'id' => 'button-add-all']) ?>
+            <?= Html::button('Add All Tables', ['class' => 'btn btn-secondary', 'id' => 'button-add-all']) ?>
         </div>
     </div>
 
@@ -122,7 +122,7 @@ $array = ['CASCADE' => 'CASCADE', 'NO ACTION' => 'NO ACTION', 'RESTRICT' => 'RES
                 ->hint('Change to textarea and back to easily view tables') ?>
         </div>
         <div style="width: 20%; vertical-align: middle; text-align: right">
-            <?= Html::button('Change View', ['class' => 'btn btn-success', 'id' => 'button-tables-convert']) ?>
+            <?= Html::button('Change View', ['class' => 'btn btn-secondary', 'id' => 'button-tables-convert']) ?>
         </div>
     </div>
 
@@ -157,14 +157,14 @@ $array = ['CASCADE' => 'CASCADE', 'NO ACTION' => 'NO ACTION', 'RESTRICT' => 'RES
 
 <?php if ($output) : ?>
     <div class="title" style="margin-top:10px; padding-top: 10px; border-top: 1px dotted #CCCCCC"">Up()
-    <?= Html::button('Select All Text', ['class' => 'btn btn-success', 'id' => 'button-select-all']) ?>
+    <?= Html::button('Select All Text', ['class' => 'btn btn-secondary', 'id' => 'button-select-all']) ?>
     </div>
     <div style="display: block; position: relative;">
         <pre id="code-output" style="margin-top: 20px;"><?= $output ?></pre>
     </div>
 
     <div class="title" style="margin-top:10px; padding-top: 10px; border-top: 1px dotted #CCCCCC">Down()
-    <?= Html::button('Select All Text', ['class' => 'btn btn-success', 'id' => 'button-select-all-drop']) ?>
+    <?= Html::button('Select All Text', ['class' => 'btn btn-secondary', 'id' => 'button-select-all-drop']) ?>
     </div>
     <div style="display: block; position: relative;">
         <pre id="code-output-drop" style="margin-top: 20px;"><?= $output_drop ?></pre>
