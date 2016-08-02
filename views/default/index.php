@@ -12,138 +12,149 @@ $array = ['CASCADE' => 'CASCADE', 'NO ACTION' => 'NO ACTION', 'RESTRICT' => 'RES
 
 <style>
     .title {
-        display    : block;
-        font-size  : 2em;
-        margin-top : 20px;
-        color      : #e7ad24;
+        display: inline-block;
+        padding-right: 20px;
+        font-size: 2em;
+        margin-top: 20px;
+        color: #e7ad24;
     }
 
     label[for=migrationutility-databasetables] {
-        display : block;
+        display: block;
     }
 
     .inline-elements {
-        display : table;
-        width   : 100%;
+        display: table;
+        width: 100%;
     }
 
     .inline-elements > div {
-        display        : table-cell;
-        vertical-align : top;
+        display: table-cell;
+        vertical-align: top;
     }
 
     .inline-elements > div:first-of-type {
-        width : 30%;
+        width: 30%;
     }
 
     .inline-elements > div:last-of-type {
-        width : 70%;
+        width: 70%;
     }
 
     .inline-elements select {
-        min-width : 100%;
+        min-width: 100%;
     }
 
     .inline-elements input {
-        min-width : 100%;
+        min-width: 100%;
     }
 
     .button-style {
-        display               : inline-block;
-        padding               : 2px 10px;
-        margin                : 0;
-        margin-left           : 20px;
+        display: inline-block;
+        padding: 2px 10px;
+        margin: 0;
+        margin-left: 20px;
 
-        font-size             : 0.9em;
-        font-weight           : normal;
+        font-size: 0.9em;
+        font-weight: normal;
 
-        background-color      : rgba(155, 202, 242, 0.56);
-        -webkit-border-radius : 5px;
-        -moz-border-radius    : 5px;
-        border-radius         : 5px;
+        background-color: rgba(155, 202, 242, 0.56);
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
 
-        cursor                : pointer;
+        cursor: pointer;
+    }
+
+    .output-text {
+        padding: 10px;
+        width: 100%;
+        min-height: 200px;
     }
 
 </style>
 
 <div class="form">
-    <?php $form = ActiveForm::begin(['id' => 'form-submit',]); ?>
 
-    <div class="inline-elements">
-        <div>
-            <?= $form->field($model, 'mysql')->dropDownList(['0' => 'No', '1' => 'Yes']) ?>
+    <div class="item-container margin-top-20 margin-bottom-20">
+
+        <?php $form = ActiveForm::begin(['id' => 'form-submit',]); ?>
+
+        <div class="inline-elements">
+            <div>
+                <?= $form->field($model, 'mysql')->dropDownList(['0' => 'No', '1' => 'Yes']) ?>
+            </div>
+            <div>
+                <?= $form->field($model, 'mysql_options') ?>
+            </div>
         </div>
-        <div>
-            <?= $form->field($model, 'mysql_options') ?>
+
+        <div class="inline-elements">
+            <div>
+                <?= $form->field($model, 'mssql')->dropDownList(['0' => 'No', '1' => 'Yes']) ?>
+            </div>
+            <div>
+                <?= $form->field($model, 'mssql_options') ?>
+            </div>
         </div>
+
+        <div class="inline-elements">
+            <div>
+                <?= $form->field($model, 'pgsql')->dropDownList(['0' => 'No', '1' => 'Yes']) ?>
+            </div>
+            <div>
+                <?= $form->field($model, 'pgsql_options') ?>
+            </div>
+        </div>
+
+        <div class="inline-elements">
+            <div>
+                <?= $form->field($model, 'sqlite')->dropDownList(['0' => 'No', '1' => 'Yes']) ?>
+            </div>
+            <div>
+                <?= $form->field($model, 'sqlite_options') ?>
+            </div>
+        </div>
+
+        <div class="inline-elements">
+            <div style="width: 80%">
+                <?= $form->field($model, 'databaseTables')->dropDownList(['00' => ' '] + $tables)->label('Tables') ?>
+            </div>
+            <div style="width: 20%; vertical-align: middle; text-align: right">
+                <?= Html::button('Add All Tables', ['class' => 'btn btn-secondary', 'id' => 'button-add-all']) ?>
+            </div>
+        </div>
+
+        <div class="inline-elements">
+            <div style="width: 80%">
+                <?= $form->field($model, 'tables')
+                    ->label('Tables to Process')
+                    ->hint('Change to textarea and back to easily view tables') ?>
+            </div>
+            <div style="width: 20%; vertical-align: middle; text-align: right">
+                <?= Html::button('Change View', ['class' => 'btn btn-secondary', 'id' => 'button-tables-convert']) ?>
+            </div>
+        </div>
+
+
+        <div class="inline-elements">
+            <div style="width: 50%">
+                <?= $form->field($model, 'ForeignKeyOnUpdate')->dropDownList($array)->hint('') ?>
+            </div>
+            <div style="width: 50%; vertical-align: middle; text-align: right">
+                <?= $form->field($model, 'ForeignKeyOnDelete')->dropDownList($array)->hint('') ?>
+            </div>
+        </div>
+
+        <?= $form->field($model, 'addTableInserts')->dropDownList(['0' => 'No', '1' => 'Yes'])->hint('Add table data to migration') ?>
+
+
+        <div class="form-group">
+            <?= Html::submitButton('Run', ['class' => 'btn btn-primary', 'name' => 'button-submit', 'id' => 'button-submit']) ?>
+        </div>
+
+        <?php ActiveForm::end() ?>
     </div>
-
-    <div class="inline-elements">
-        <div>
-            <?= $form->field($model, 'mssql')->dropDownList(['0' => 'No', '1' => 'Yes']) ?>
-        </div>
-        <div>
-            <?= $form->field($model, 'mssql_options') ?>
-        </div>
-    </div>
-
-    <div class="inline-elements">
-        <div>
-            <?= $form->field($model, 'pgsql')->dropDownList(['0' => 'No', '1' => 'Yes']) ?>
-        </div>
-        <div>
-            <?= $form->field($model, 'pgsql_options') ?>
-        </div>
-    </div>
-
-    <div class="inline-elements">
-        <div>
-            <?= $form->field($model, 'sqlite')->dropDownList(['0' => 'No', '1' => 'Yes']) ?>
-        </div>
-        <div>
-            <?= $form->field($model, 'sqlite_options') ?>
-        </div>
-    </div>
-
-    <div class="inline-elements">
-        <div style="width: 80%">
-            <?= $form->field($model, 'databaseTables')->dropDownList(['00' => ' '] + $tables)->label('Tables') ?>
-        </div>
-        <div style="width: 20%; vertical-align: middle; text-align: right">
-            <?= Html::button('Add All Tables', ['class' => 'btn btn-secondary', 'id' => 'button-add-all']) ?>
-        </div>
-    </div>
-
-    <div class="inline-elements">
-        <div style="width: 80%">
-            <?= $form->field($model, 'tables')
-                ->label('Tables to Process')
-                ->hint('Change to textarea and back to easily view tables') ?>
-        </div>
-        <div style="width: 20%; vertical-align: middle; text-align: right">
-            <?= Html::button('Change View', ['class' => 'btn btn-secondary', 'id' => 'button-tables-convert']) ?>
-        </div>
-    </div>
-
-
-    <div class="inline-elements">
-        <div style="width: 50%">
-            <?= $form->field($model, 'ForeignKeyOnUpdate')->dropDownList($array)->hint('') ?>
-        </div>
-        <div style="width: 50%; vertical-align: middle; text-align: right">
-            <?= $form->field($model, 'ForeignKeyOnDelete')->dropDownList($array)->hint('') ?>
-        </div>
-    </div>
-
-    <?= $form->field($model, 'addTableInserts')->dropDownList(['0' => 'No', '1' => 'Yes'])->hint('Add table data to migration') ?>
-
-
-    <div class="form-group">
-        <?= Html::submitButton('Run', ['class' => 'btn btn-primary', 'name' => 'button-submit', 'id' => 'button-submit']) ?>
-    </div>
-
-    <?php ActiveForm::end() ?>
 </div>
 
 
@@ -156,18 +167,23 @@ $array = ['CASCADE' => 'CASCADE', 'NO ACTION' => 'NO ACTION', 'RESTRICT' => 'RES
 
 
 <?php if ($output) : ?>
-    <div class="title" style="margin-top:10px; padding-top: 10px; border-top: 1px dotted #CCCCCC"">Up()
-    <?= Html::button('Select All Text', ['class' => 'btn btn-secondary', 'id' => 'button-select-all']) ?>
-    </div>
-    <div style="display: block; position: relative;">
-        <pre id="code-output" style="margin-top: 20px;"><?= $output ?></pre>
-    </div>
 
-    <div class="title" style="margin-top:10px; padding-top: 10px; border-top: 1px dotted #CCCCCC">Down()
-    <?= Html::button('Select All Text', ['class' => 'btn btn-secondary', 'id' => 'button-select-all-drop']) ?>
-    </div>
-    <div style="display: block; position: relative;">
-        <pre id="code-output-drop" style="margin-top: 20px;"><?= $output_drop ?></pre>
+    <div class="item-container margin-top-20 margin-bottom-20">
+
+        <div style="margin-top:10px; padding-top: 10px; border-top: 1px dotted #CCCCCC"><span class="title">Up()</span>
+            <?= Html::button('Select All Text', ['class' => 'btn btn-secondary', 'id' => 'button-select-all']) ?>
+        </div>
+        <div style="display: block; position: relative;">
+            <textarea id="code-output" class="output-text form-control"> <?= $output ?></textarea>
+        </div>
+
+        <div style="margin-top:10px; padding-top: 10px; border-top: 1px dotted #CCCCCC"><span class="title">Down()</span>
+            <?= Html::button('Select All Text', ['class' => 'btn btn-secondary', 'id' => 'button-select-all-drop']) ?>
+        </div>
+        <div style="display: block; position: relative;">
+            <textarea id="code-output-drop" class="output-text form-control"> <?= $output_drop ?></textarea>
+        </div>
+
     </div>
 
 <?php endif ?>
@@ -185,7 +201,7 @@ $array = ['CASCADE' => 'CASCADE', 'NO ACTION' => 'NO ACTION', 'RESTRICT' => 'RES
             });
             var doc = document;
             var element = this[0];
-            console.log(this, element);
+//            console.log(this, element);
             if (doc.body.createTextRange) {
                 var range = document.body.createTextRange();
                 range.moveToElementText(element);

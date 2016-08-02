@@ -160,7 +160,6 @@ class DefaultController extends Controller
                         $out = rtrim($out, ',') . ']);';
 //                        $output->addStr($out);
                         $array['inserts'][] = $out;
-
                     }
                 }
 
