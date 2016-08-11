@@ -186,6 +186,3 @@ $array = ['CASCADE' => 'CASCADE', 'NO ACTION' => 'NO ACTION', 'RESTRICT' => 'RES
 
 <?php endif ?>
 
-
-   
-
