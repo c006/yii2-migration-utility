@@ -86,15 +86,28 @@ class DefaultController extends Controller
                     $output->addStr('$this->createTable(\'{{%' . $table_prepared . '}}\', [');
                     $output->tabLevel++;
                     // Ordinary columns
+
+                    $primaryKeyColumns = [];
+                    foreach ($columns->columns as $column) {
+                        if ($column->isPrimaryKey) {
+                            array_push($primaryKeyColumns, "`" . $column->name . "`");
+                        }
+                    }
+
+                    $isPrimaryKeyComposite = count($primaryKeyColumns) > 1;
+
                     $k = 0;
                     foreach ($columns->columns as $column) {
                         $appUtility = new AppUtility($column, $dbType);
                         $output->addStr($appUtility->string . "',");
-                        if ($column->isPrimaryKey) {
+                        if ($column->isPrimaryKey && !$isPrimaryKeyComposite) {
                             $output->addStr($k . " => 'PRIMARY KEY (`" . $column->name . "`)',");
                         }
                         $k++;
+                    }
 
+                    if ($isPrimaryKeyComposite){
+                        $output->addStr($k . " => 'PRIMARY KEY (" . implode(", ", $primaryKeyColumns) . ")',");
                     }
 
                     $output->tabLevel--;
