@@ -148,6 +148,8 @@ $array = ['CASCADE' => 'CASCADE', 'NO ACTION' => 'NO ACTION', 'RESTRICT' => 'RES
 
         <?= $form->field($model, 'addTableInserts')->dropDownList(['0' => 'No', '1' => 'Yes'])->hint('Add table data to migration') ?>
 
+        <?= $form->field($model, 'addIndexes')->dropDownList(['0' => 'No', '1' => 'Yes'])->hint('Generate create index statement using "show indexes"? if u have no manually created indexes don\'t turn on this choice') ?>
+
 
         <div class="form-group">
             <?= Html::submitButton('Run', ['class' => 'btn btn-primary', 'name' => 'button-submit', 'id' => 'button-submit']) ?>
@@ -175,7 +177,8 @@ $array = ['CASCADE' => 'CASCADE', 'NO ACTION' => 'NO ACTION', 'RESTRICT' => 'RES
             <textarea id="code-output" class="output-text form-control"> <?= $output ?></textarea>
         </div>
 
-        <div style="margin-top:10px; padding-top: 10px; border-top: 1px dotted #CCCCCC"><span class="title">Down()</span>
+        <div style="margin-top:10px; padding-top: 10px; border-top: 1px dotted #CCCCCC"><span
+                class="title">Down()</span>
             <?= Html::button('Select All Text', ['class' => 'btn btn-secondary', 'id' => 'button-select-all-drop']) ?>
         </div>
         <div style="display: block; position: relative;">
