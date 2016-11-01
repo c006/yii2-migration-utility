@@ -150,6 +150,7 @@ class DefaultController extends Controller
                                 'unique' => (($item['Non_unique']) ? 0 : 1),
                                 'column' => $item['Column_name'],
                                 'table'  => $item['Table'],
+                                'fulltext' => $item['Index_type'] == 'FULLTEXT' ? 1 : 0,
                             ];
                         }
                     }
@@ -182,7 +183,11 @@ class DefaultController extends Controller
             if (sizeof($array['indexes'])) {
                 $output->addStr(' ');
                 foreach ($array['indexes'] as $item) {
-                    $str = '$this->createIndex(\'' . $item['name'] . '\',\'' . $item['table'] . '\',\'' . $item['column'] . '\',' . $item['unique'] . ');';
+                    if ($item['fulltext']) {
+                        $str = '$this->execute("ALTER TABLE ' . $item['table'] . ' ADD FULLTEXT INDEX ' . $item['name'] . ' (' . $item['column'] . ')");';
+                    } else {
+                        $str = '$this->createIndex(\'' . $item['name'] . '\',\'' . $item['table'] . '\',\'' . $item['column'] . '\',' . $item['unique'] . ');';
+                    }
                     $output->addStr($str);
                 }
             }
