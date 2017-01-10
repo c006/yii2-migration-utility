@@ -78,7 +78,7 @@ class DefaultController extends Controller
                     }
 
                     $output->addStr('/* ' . strtoupper($dbType) . ' */');
-                    $output->addStr('if (!in_array(\'' . $table . '\', $tables))  { ');
+                    $output->addStr('if (!in_array(Yii::$app->db->tablePrefix.\'' . $table . '\', $tables))  { ');
                     if ($ifThen) {
                         $output->addStr('if ($dbType == "' . $dbType . '") {');
                         $output->tabLevel++;
