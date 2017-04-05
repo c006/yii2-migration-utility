@@ -1,4 +1,5 @@
 <?php
+
 namespace c006\utility\migration\controllers;
 
 use c006\utility\migration\assets\AppAssets;
@@ -91,7 +92,14 @@ class DefaultController extends Controller
                     $k = 0;
                     foreach ($columns->columns as $column) {
                         $appUtility = new AppUtility($column, $dbType);
-                        $output->addStr($appUtility->string . "',");
+
+                        $str = "'" . $appUtility->array['name'] . "' => '";
+                        $str .= strtoupper($appUtility->array['dbType']);
+                        $str .= ($appUtility->array['allowNull']) ? ' NULL ' : ' NOT NULL ';
+                        $str .= (strlen($appUtility->array['defaultValue'])) ? " DEFAULT \\'" . (string) $appUtility->array['defaultValue'] . "\\'" : ' ';
+                        $str .= "',";
+
+                        $output->addStr($str);
                         if ($column->isPrimaryKey) {
                             $array['pk'][] = $column->name;
                         }
@@ -161,7 +169,6 @@ class DefaultController extends Controller
                             $out .= "'" . $column->name . "'=>'" . addslashes($row[ $column->name ]) . "',";
                         }
                         $out = rtrim($out, ',') . ']);';
-//                        $output->addStr($out);
                         $array['inserts'][] = $out;
                     }
                 }
@@ -225,11 +232,18 @@ class DefaultController extends Controller
                 'model'       => $model,
                 'output'      => $output->output(),
                 'output_drop' => $output_drop->output(),
-                'tables'      => self::getTables()
+                'tables'      => self::getTables(),
             ]
         );
     }
 
+    /**
+     * @return \string[]
+     */
+    public function getTables()
+    {
+        return \Yii::$app->db->getSchema()->getTableNames('', TRUE);
+    }
 
     protected function mysql_direct($table)
     {
@@ -265,14 +279,6 @@ class DefaultController extends Controller
 
     }
 
-    /**
-     * @return \string[]
-     */
-    public function getTables()
-    {
-        return \Yii::$app->db->getSchema()->getTableNames('', TRUE);
-    }
-
 }
 
 /**
@@ -298,7 +304,7 @@ class OutputString extends Object
     /**
      * @var string
      */
-    public $outputStringArray = array();
+    public $outputStringArray = [];
 
     /**
      * @var int

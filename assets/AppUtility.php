@@ -18,7 +18,7 @@ class AppUtility
 
     private $Nw     = "\n";
 
-    private $array  = [];
+    public $array  = [];
 
     private $dbType = '';
 

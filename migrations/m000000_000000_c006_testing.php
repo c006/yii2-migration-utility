@@ -33,11 +33,12 @@ class m000000_000000_c006_testing extends Migration
         if (!in_array(Yii::$app->db->tablePrefix.'new_table_2', $tables))  {
             if ($dbType == "mysql") {
                 $this->createTable('{{%new_table_2}}', [
-                    'id' => 'INT(10) UNSIGNED NOT NULL AUTO_INCREMENT',
-                    'column_varchar' => 'VARCHAR(200) NULL',
-                    'column_char' => 'CHAR(3) NULL',
-                    'column_tinyint' => 'TINYINT(1) NULL',
-                    4 => 'PRIMARY KEY (`id`)',
+                    'id' => 'INT(10) UNSIGNED NOT NULL  ',
+                    'column_varchar' => 'VARCHAR(200) NULL  ',
+                    'column_char' => 'CHAR(3) NULL  ',
+                    'column_tinyint' => 'TINYINT(1) NOT NULL  DEFAULT \'0\'',
+                    'column_smallint' => 'SMALLINT(4) NULL  DEFAULT \'1\'',
+                    5 => 'PRIMARY KEY (`id`)',
                 ], $tableOptions_mysql);
             }
         }
@@ -46,10 +47,10 @@ class m000000_000000_c006_testing extends Migration
         if (!in_array(Yii::$app->db->tablePrefix.'new_table', $tables))  {
             if ($dbType == "mysql") {
                 $this->createTable('{{%new_table}}', [
-                    'id' => 'INT(11) NOT NULL AUTO_INCREMENT',
-                    'id2' => 'INT(11) NOT NULL',
-                    'column1' => 'VARCHAR(100) NULL',
-                    'column2' => 'CHAR(3) NOT NULL',
+                    'id' => 'INT(11) NOT NULL  ',
+                    'id2' => 'INT(11) NOT NULL  ',
+                    'column1' => 'VARCHAR(100) NULL  ',
+                    'column2' => 'CHAR(3) NOT NULL  ',
                     4 => 'PRIMARY KEY (`id`,`id2`)',
                 ], $tableOptions_mysql);
             }
@@ -57,8 +58,8 @@ class m000000_000000_c006_testing extends Migration
 
 
         $this->execute('SET foreign_key_checks = 0');
-        $this->insert('{{%new_table_2}}',['id'=>'1','column_varchar'=>'A','column_char'=>'B','column_tinyint'=>'1']);
-        $this->insert('{{%new_table_2}}',['id'=>'2','column_varchar'=>'AA','column_char'=>'BB','column_tinyint'=>'0']);
+        $this->insert('{{%new_table_2}}',['id'=>'1','column_varchar'=>'A','column_char'=>'B','column_tinyint'=>'1','column_smallint'=>'1']);
+        $this->insert('{{%new_table_2}}',['id'=>'2','column_varchar'=>'AA','column_char'=>'BB','column_tinyint'=>'0','column_smallint'=>'1']);
         $this->insert('{{%new_table}}',['id'=>'1','id2'=>'0','column1'=>'A','column2'=>'bbb']);
         $this->insert('{{%new_table}}',['id'=>'2','id2'=>'1','column1'=>'b','column2'=>'ccc']);
         $this->execute('SET foreign_key_checks = 1;');
