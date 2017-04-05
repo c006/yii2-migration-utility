@@ -83,6 +83,11 @@ class MigrationUtility extends Model
     public $ForeignKeyOnUpdate = 'NO ACTION';
 
     /**
+     * @var bool
+     */
+    public $addIndexes = FALSE;
+
+    /**
      * @return array
      */
     function rules()

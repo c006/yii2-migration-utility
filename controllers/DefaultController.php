@@ -47,6 +47,7 @@ class DefaultController extends Controller
             $tables_value = $_POST['MigrationUtility']['tables'];
             $ifThen = 1; //$_POST['MigrationUtility']['addIfThenStatements'];
             $addTableInserts = $_POST['MigrationUtility']['addTableInserts'];
+            $addIndexes = $_POST['MigrationUtility']['addIndexes'];
             $tableOptions = [];
             $tableOptions['mysql'] = [$_POST['MigrationUtility']['mysql'], $_POST['MigrationUtility']['mysql_options']];
             $tableOptions['mssql'] = [$_POST['MigrationUtility']['mssql'], $_POST['MigrationUtility']['mssql_options']];
@@ -72,6 +73,7 @@ class DefaultController extends Controller
                 $prefix = \Yii::$app->db->tablePrefix;
                 $table_prepared = str_replace($prefix, '', $table);
                 $output->tabLevel = $initialTabLevel;
+
                 foreach ($tableOptions as $dbType => $item) {
                     if (!$item[0]) {
                         continue;
@@ -86,15 +88,21 @@ class DefaultController extends Controller
                     $output->addStr('$this->createTable(\'{{%' . $table_prepared . '}}\', [');
                     $output->tabLevel++;
                     // Ordinary columns
+
                     $k = 0;
                     foreach ($columns->columns as $column) {
                         $appUtility = new AppUtility($column, $dbType);
                         $output->addStr($appUtility->string . "',");
-                        if ($column->isPrimaryKey) {
-                            $output->addStr($k . " => 'PRIMARY KEY (`" . $column->name . "`)',");
-                        }
                         $k++;
+                    }
 
+                    $primaryKeyColumns = [];
+                    foreach ($columns->primaryKey as $pkc) {
+                        $primaryKeyColumns[] = '`' . $pkc . '`';
+                    }
+
+                    if (sizeof($primaryKeyColumns)) {
+                        $output->addStr($k . " => 'PRIMARY KEY (" . implode(", ", $primaryKeyColumns) . ")',");
                     }
 
                     $output->tabLevel--;
@@ -102,42 +110,48 @@ class DefaultController extends Controller
                     if (in_array($dbType, ['mysql', 'mssql', 'pgsql']) && !empty($columns->foreignKeys)) {
                         foreach ($columns->foreignKeys as $fk) {
                             $link_table = '';
+
+                            $refColumns = [];
+                            $locColumns = [];
+
                             foreach ($fk as $k => $v) {
                                 if ($k == '0') {
                                     $link_table = $v;
                                 } else {
-                                    $link_to_column = $k;
-                                    $link_column = $v;
-                                    $str = '$this->addForeignKey(';
-                                    $str .= '\'fk_' . $link_table . '_' . explode('.', microtime('usec'))[1] . '_' . substr("000" . sizeof($array['fk']), 2) . "',";
-                                    $str .= '\'{{%' . $table . '}}\', ';
-                                    $str .= '\'' . $link_to_column . '\', ';
-                                    $str .= '\'{{%' . $link_table . '}}\', ';
-                                    $str .= '\'' . $link_column . '\', ';
-                                    $str .= '\'' . $foreignKeyOnDelete . '\', ';
-                                    $str .= '\'' . $foreignKeyOnUpdate . '\' ';
-                                    $str .= ');';
-                                    $array['fk'][] = $str;
-
+                                    $locColumns[] = '\'' . $k . '\'';
+                                    $refColumns[] = '\'' . $v . '\'';
                                 }
                             }
+
+                            $str = '$this->addForeignKey(';
+                            $str .= '\'fk_' . $link_table . '_' . explode('.', microtime('usec'))[1] . '_' . substr("000" . sizeof($array['fk']), 2) . "',";
+                            $str .= '\'{{%' . $table . '}}\', ';
+                            $str .= '[' . implode(', ', $locColumns) . '], ';
+                            $str .= '\'{{%' . $link_table . '}}\', ';
+                            $str .= '[' . implode(', ', $refColumns) . '], ';
+                            $str .= '\'' . $foreignKeyOnDelete . '\', ';
+                            $str .= '\'' . $foreignKeyOnUpdate . '\' ';
+                            $str .= ');';
+
+                            $array['fk'][] = $str;
                         }
-
-
                     }
 
-                    $table_indexes = Yii::$app->db->createCommand('SHOW INDEX FROM `' . $table . '`')->queryAll();
+                    if ($addIndexes) {
 
-                    foreach ($table_indexes as $item) {
-                        if ($item['Key_name'] != 'PRIMARY' && $item['Seq_in_index'] == 1) {
+                        $table_indexes = Yii::$app->db->createCommand('SHOW INDEX FROM `' . $table . '`')->queryAll();
 
-                            $unique = ($item['Non_unique']) ? '' : '_UNIQUE';
-                            $array['indexes'][] = [
-                                'name'   => 'idx' . $unique . '_' . $item['Column_name'] . '_' . explode('.', microtime('usec'))[1] . '_' . substr("000" . sizeof($array['indexes']), -2),
-                                'unique' => (($item['Non_unique']) ? 0 : 1),
-                                'column' => $item['Column_name'],
-                                'table'  => $item['Table'],
-                            ];
+                        foreach ($table_indexes as $item) {
+                            if ($item['Key_name'] != 'PRIMARY' && $item['Seq_in_index'] == 1) {
+
+                                $unique = ($item['Non_unique']) ? '' : '_UNIQUE';
+                                $array['indexes'][] = [
+                                    'name' => 'idx' . $unique . '_' . $item['Column_name'] . '_' . explode('.', microtime('usec'))[1] . '_' . substr("000" . sizeof($array['indexes']), -2),
+                                    'unique' => (($item['Non_unique']) ? 0 : 1),
+                                    'column' => $item['Column_name'],
+                                    'table' => $item['Table'],
+                                ];
+                            }
                         }
                     }
 
@@ -145,9 +159,9 @@ class DefaultController extends Controller
                         $output->tabLevel--;
                         $output->addStr('}');
                     }
+
                     $output->addStr('}');
                     $output->addStr(' ');
-
                 }
 
                 if ($addTableInserts) {
@@ -155,7 +169,7 @@ class DefaultController extends Controller
                     foreach ($data as $row) {
                         $out = '$this->insert(\'{{%' . $table . '}}\',[';
                         foreach ($columns->columns as $column) {
-                            $out .= "'" . $column->name . "'=>'" . addslashes($row[ $column->name ]) . "',";
+                            $out .= "'" . $column->name . "'=>'" . addslashes($row[$column->name]) . "',";
                         }
                         $out = rtrim($out, ',') . ']);';
 //                        $output->addStr($out);
@@ -210,7 +224,7 @@ class DefaultController extends Controller
         /* Save Post state */
         if (isset($_POST['MigrationUtility'])) {
             foreach ($_POST['MigrationUtility'] as $k => $v) {
-                $model[ $k ] = $v;
+                $model[$k] = $v;
             }
 
 //            print_r($model->attributes); exit;
@@ -219,10 +233,10 @@ class DefaultController extends Controller
         return $this->render(
             'index',
             [
-                'model'       => $model,
-                'output'      => $output->output(),
+                'model' => $model,
+                'output' => $output->output(),
                 'output_drop' => $output_drop->output(),
-                'tables'      => self::getTables()
+                'tables' => self::getTables()
             ]
         );
     }
