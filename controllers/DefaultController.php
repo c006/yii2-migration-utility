@@ -17,7 +17,6 @@ use yii\web\Controller;
  */
 class DefaultController extends Controller
 {
-
     /**
      *
      */
@@ -37,21 +36,23 @@ class DefaultController extends Controller
         $output_drop = new OutputString();
         $tables_value = '';
         if (isset($_POST['MigrationUtility'])) {
+            $post = $_POST['MigrationUtility'];
             $array = [];
             $array['inserts'] = [];
             $array['fk'] = [];
             $array['indexes'] = [];
+            $array['pk'] = [];
 
-            $foreignKeyOnUpdate = $_POST['MigrationUtility']['ForeignKeyOnUpdate'];
-            $foreignKeyOnDelete = $_POST['MigrationUtility']['ForeignKeyOnDelete'];
-            $tables_value = $_POST['MigrationUtility']['tables'];
-            $ifThen = 1; //$_POST['MigrationUtility']['addIfThenStatements'];
-            $addTableInserts = $_POST['MigrationUtility']['addTableInserts'];
+            $foreignKeyOnUpdate = $post['ForeignKeyOnUpdate'];
+            $foreignKeyOnDelete = $post['ForeignKeyOnDelete'];
+            $tables_value = $post['tables'];
+            $ifThen = 1; //$post['addIfThenStatements'];
+            $addTableInserts = $post['addTableInserts'];
             $tableOptions = [];
-            $tableOptions['mysql'] = [$_POST['MigrationUtility']['mysql'], $_POST['MigrationUtility']['mysql_options']];
-            $tableOptions['mssql'] = [$_POST['MigrationUtility']['mssql'], $_POST['MigrationUtility']['mssql_options']];
-            $tableOptions['pgsql'] = [$_POST['MigrationUtility']['pgsql'], $_POST['MigrationUtility']['pgsql_options']];
-            $tableOptions['sqlite'] = [$_POST['MigrationUtility']['sqlite'], $_POST['MigrationUtility']['sqlite_options']];
+            $tableOptions['mysql'] = [$post['mysql'], $post['mysql_options']];
+            $tableOptions['mssql'] = [$post['mssql'], $post['mssql_options']];
+            $tableOptions['pgsql'] = [$post['pgsql'], $post['pgsql_options']];
+            $tableOptions['sqlite'] = [$post['sqlite'], $post['sqlite_options']];
 
             $tables = trim($tables_value);
             $tables = preg_replace('/\s+/', ',', $tables);
@@ -78,7 +79,8 @@ class DefaultController extends Controller
                     }
 
                     $output->addStr('/* ' . strtoupper($dbType) . ' */');
-                    $output->addStr('if (!in_array(\'' . $table . '\', $tables))  { ');
+                    $output->addStr('if (!in_array(Yii::$app->db->tablePrefix.\'' . $table . '\', $tables))  { ');
+
                     if ($ifThen) {
                         $output->addStr('if ($dbType == "' . $dbType . '") {');
                         $output->tabLevel++;
@@ -91,11 +93,14 @@ class DefaultController extends Controller
                         $appUtility = new AppUtility($column, $dbType);
                         $output->addStr($appUtility->string . "',");
                         if ($column->isPrimaryKey) {
-                            $output->addStr($k . " => 'PRIMARY KEY (`" . $column->name . "`)',");
+                            $array['pk'][] = $column->name;
                         }
                         $k++;
-
                     }
+                    if (sizeof($array['pk'])) {
+                        $output->addStr($k . " => 'PRIMARY KEY (`" . join('`,`', $array['pk']) . "`)',");
+                    }
+                    $array['pk'] = [];
 
                     $output->tabLevel--;
                     $output->addStr('], $tableOptions_' . strtolower($dbType) . ');');
@@ -122,8 +127,6 @@ class DefaultController extends Controller
                                 }
                             }
                         }
-
-
                     }
 
                     $table_indexes = Yii::$app->db->createCommand('SHOW INDEX FROM `' . $table . '`')->queryAll();
@@ -230,34 +233,35 @@ class DefaultController extends Controller
 
     protected function mysql_direct($table)
     {
-        print_r(Yii::$app->db);
-        exit;
-
-        $link = mysql_connect('mysql_host', 'mysql_user', 'mysql_password')
-        or die('Could not connect: ' . mysql_error());
-        echo 'Connected successfully';
-        mysql_select_db('my_database') or die('Could not select database');
-
-// Performing SQL query
-        $query = 'SELECT * FROM my_table';
-        $result = mysql_query($query) or die('Query failed: ' . mysql_error());
-
-// Printing results in HTML
-        echo "<table>\n";
-        while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
-            echo "\t<tr>\n";
-            foreach ($line as $col_value) {
-                echo "\t\t<td>$col_value</td>\n";
-            }
-            echo "\t</tr>\n";
-        }
-        echo "</table>\n";
-
-// Free resultset
-        mysql_free_result($result);
-
-// Closing connection
-        mysql_close($link);
+        /* TESTING ONLY */
+//        print_r(Yii::$app->db);
+//        exit;
+//
+//        $link = mysql_connect('mysql_host', 'mysql_user', 'mysql_password')
+//        or die('Could not connect: ' . mysql_error());
+//        echo 'Connected successfully';
+//        mysql_select_db('my_database') or die('Could not select database');
+//
+//// Performing SQL query
+//        $query = 'SELECT * FROM my_table';
+//        $result = mysql_query($query) or die('Query failed: ' . mysql_error());
+//
+//// Printing results in HTML
+//        echo "<table>\n";
+//        while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
+//            echo "\t<tr>\n";
+//            foreach ($line as $col_value) {
+//                echo "\t\t<td>$col_value</td>\n";
+//            }
+//            echo "\t</tr>\n";
+//        }
+//        echo "</table>\n";
+//
+//// Free resultset
+//        mysql_free_result($result);
+//
+//// Closing connection
+//        mysql_close($link);
 
     }
 

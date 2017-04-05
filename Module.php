@@ -16,11 +16,6 @@ class Module extends \yii\base\Module
 {
 
     /**
-     *
-     */
-    const VERSION = '0.0.2-dev';
-
-    /**
      * @var string
      */
     public $controllerNamespace = 'c006\utility\migration\controllers';

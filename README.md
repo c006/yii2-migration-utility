@@ -1,7 +1,7 @@
 Yii2 Migration Utility
 ===================
 
-**Current Version - v1.2.1**
+**Current Version - v2.0.0**
 
 + Add JqueryAsset to DefaultController
 
@@ -24,7 +24,7 @@ It automatically writes out all:
 + column types
 + column defaults
 + primary keys
-+ composite keys
++ composite PKs
 + foreign key
 + indexes
 + Table data
@@ -73,7 +73,9 @@ The tables must already exist in website schema.
 Demo
 -------
 
-Demo: [http://demo.c006.us](http://demo.c006.us)
+Demo: [http://c006.us](http://c006.us)
+
+Demo is currently down
 
 
 Usage
@@ -104,6 +106,8 @@ Contributors
 + [Deele](https://github.com/Deele)
 + Sedov Sergey
 + fedemotta
++ derekisbusy
++ kvasyl
 
 
 
