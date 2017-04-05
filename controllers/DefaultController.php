@@ -78,7 +78,7 @@ class DefaultController extends Controller
                     }
 
                     $output->addStr('/* ' . strtoupper($dbType) . ' */');
-                    $output->addStr('if (!in_array(\'' . $table . '\', $tables))  { ');
+                    $output->addStr('if (!in_array(Yii::$app->db->tablePrefix.\'' . $table . '\', $tables))  { ');
                     if ($ifThen) {
                         $output->addStr('if ($dbType == "' . $dbType . '") {');
                         $output->tabLevel++;
@@ -86,15 +86,28 @@ class DefaultController extends Controller
                     $output->addStr('$this->createTable(\'{{%' . $table_prepared . '}}\', [');
                     $output->tabLevel++;
                     // Ordinary columns
+
+                    $primaryKeyColumns = [];
+                    foreach ($columns->columns as $column) {
+                        if ($column->isPrimaryKey) {
+                            array_push($primaryKeyColumns, "`" . $column->name . "`");
+                        }
+                    }
+
+                    $isPrimaryKeyComposite = count($primaryKeyColumns) > 1;
+
                     $k = 0;
                     foreach ($columns->columns as $column) {
                         $appUtility = new AppUtility($column, $dbType);
                         $output->addStr($appUtility->string . "',");
-                        if ($column->isPrimaryKey) {
+                        if ($column->isPrimaryKey && !$isPrimaryKeyComposite) {
                             $output->addStr($k . " => 'PRIMARY KEY (`" . $column->name . "`)',");
                         }
                         $k++;
+                    }
 
+                    if ($isPrimaryKeyComposite){
+                        $output->addStr($k . " => 'PRIMARY KEY (" . implode(", ", $primaryKeyColumns) . ")',");
                     }
 
                     $output->tabLevel--;
@@ -137,6 +150,7 @@ class DefaultController extends Controller
                                 'unique' => (($item['Non_unique']) ? 0 : 1),
                                 'column' => $item['Column_name'],
                                 'table'  => $item['Table'],
+                                'fulltext' => $item['Index_type'] == 'FULLTEXT' ? 1 : 0,
                             ];
                         }
                     }
@@ -169,7 +183,11 @@ class DefaultController extends Controller
             if (sizeof($array['indexes'])) {
                 $output->addStr(' ');
                 foreach ($array['indexes'] as $item) {
-                    $str = '$this->createIndex(\'' . $item['name'] . '\',\'' . $item['table'] . '\',\'' . $item['column'] . '\',' . $item['unique'] . ');';
+                    if ($item['fulltext']) {
+                        $str = '$this->execute("ALTER TABLE ' . $item['table'] . ' ADD FULLTEXT INDEX ' . $item['name'] . ' (' . $item['column'] . ')");';
+                    } else {
+                        $str = '$this->createIndex(\'' . $item['name'] . '\',\'' . $item['table'] . '\',\'' . $item['column'] . '\',' . $item['unique'] . ');';
+                    }
                     $output->addStr($str);
                 }
             }
