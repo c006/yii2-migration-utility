@@ -132,6 +132,7 @@ class DefaultController extends Controller
                     foreach ($table_indexes as $item) {
                         if ($item['Key_name'] != 'PRIMARY' ) {
                             $table_indexes_new[$item['Key_name']]['cols'][] = $item['Column_name'];
+							$table_indexes_new[$item['Key_name']]['Column_name'][] = $item['Column_name'];
                             $table_indexes_new[$item['Key_name']]['Non_unique'] = $item['Non_unique'];
                             $table_indexes_new[$item['Key_name']]['Table'] = $item['Table'];
                         }
@@ -141,7 +142,7 @@ class DefaultController extends Controller
                     foreach ($table_indexes_new as $item) {
                         $unique = ($item['Non_unique']) ? '' : '_UNIQUE';
                         $array['indexes'][] = [
-                            'name' => 'idx' . $unique . '_' . $item['Column_name'] . '_' . explode('.', microtime('usec'))[1] . '_' . substr("000" . sizeof($array['indexes']), -2),
+                            'name' => 'idx' . $unique . '_' . implode("_" ,array_values($item['Column_name'])) . '_' . explode('.', microtime('usec'))[1] . '_' . substr("000" . sizeof($array['indexes']), -2),
                             'unique' => (($item['Non_unique']) ? 0 : 1),
                             'column' => implode(",", array_values($item['cols'])),//$item['Column_name'],
                             'table' => $item['Table'],
