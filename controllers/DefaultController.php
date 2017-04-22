@@ -128,19 +128,26 @@ class DefaultController extends Controller
 
                     $table_indexes = Yii::$app->db->createCommand('SHOW INDEX FROM `' . $table . '`')->queryAll();
 
+                    $table_indexes_new = [];
                     foreach ($table_indexes as $item) {
-                        if ($item['Key_name'] != 'PRIMARY' && $item['Seq_in_index'] == 1) {
-
-                            $unique = ($item['Non_unique']) ? '' : '_UNIQUE';
-                            $array['indexes'][] = [
-                                'name'   => 'idx' . $unique . '_' . $item['Column_name'] . '_' . explode('.', microtime('usec'))[1] . '_' . substr("000" . sizeof($array['indexes']), -2),
-                                'unique' => (($item['Non_unique']) ? 0 : 1),
-                                'column' => $item['Column_name'],
-                                'table'  => $item['Table'],
-                            ];
+                        if ($item['Key_name'] != 'PRIMARY' ) {
+                            $table_indexes_new[$item['Key_name']]['cols'][] = $item['Column_name'];
+                            $table_indexes_new[$item['Key_name']]['Non_unique'] = $item['Non_unique'];
+                            $table_indexes_new[$item['Key_name']]['Table'] = $item['Table'];
                         }
+
                     }
 
+                    foreach ($table_indexes_new as $item) {
+                        $unique = ($item['Non_unique']) ? '' : '_UNIQUE';
+                        $array['indexes'][] = [
+                            'name' => 'idx' . $unique . '_' . $item['Column_name'] . '_' . explode('.', microtime('usec'))[1] . '_' . substr("000" . sizeof($array['indexes']), -2),
+                            'unique' => (($item['Non_unique']) ? 0 : 1),
+                            'column' => implode(",", array_values($item['cols'])),//$item['Column_name'],
+                            'table' => $item['Table'],
+                        ];
+                    }
+					
                     if ($ifThen) {
                         $output->tabLevel--;
                         $output->addStr('}');
