@@ -5,7 +5,7 @@ use c006\utility\migration\assets\AppAssets;
 use c006\utility\migration\assets\AppUtility;
 use c006\utility\migration\models\MigrationUtility;
 use Yii;
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\web\Controller;
 
 /**
@@ -286,7 +286,7 @@ class DefaultController extends Controller
  *
  * @package c006\utility\migration\controllers
  */
-class OutputString extends Object
+class OutputString extends BaseObject
 {
 
     /**
