@@ -49,7 +49,7 @@ class AppAssets extends AssetBundle
      * @var array
      */
     public $jsOptions = [
-        'position' => View::POS_END,
+        //'position' => View::POS_END,
     ];
 
 }

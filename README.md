@@ -1,7 +1,7 @@
 Yii2 Migration Utility
 ===================
 
-**Current Version - v2.0.3**  `July-17-2017`
+**Current Version - v2.0.4**  `2020-06`
 
 + Add JqueryAsset to DefaultController
 
@@ -38,13 +38,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-source "c006/yii2-migration-utility" "dev-master"
+php composer.phar require --prefer-source "c006/yii2-migration-utility" ">=2.0.4"
 ```
 
 or add
 
 ```
-"c006/yii2-migration-utility": "dev-master"
+"c006/yii2-migration-utility": ">=2.0.4"
 ```
 
 to the require section of your `composer.json` file.
@@ -70,10 +70,10 @@ Update either ***config/web.php*** (basic) or ***config/main.php*** (advanced)
 The tables must already exist in website schema.
 
 
-Demo
+Screen Capture
 -------
 
-Demo: [http://demo.c006.us](http://demo.c006.us)
+Image: [https://drive.google.com/file/d/18TwwvvN4r9u7zQ537i5LsP3XQe6aizMp/view?usp=sharing](https://drive.google.com/file/d/18TwwvvN4r9u7zQ537i5LsP3XQe6aizMp/view?usp=sharing)
 
 
 Usage

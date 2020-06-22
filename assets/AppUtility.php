@@ -100,9 +100,9 @@ class AppUtility
             $this->string .= ($this->array['autoIncrement']) ? ' AUTO_INCREMENT' : '';
         if (isset($this->array['defaultValue']))
             if (!is_array($this->array['defaultValue'])) {
-                $this->string .= (empty($this->array['defaultValue'])) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
+                $this->string .= (strlen($this->array['defaultValue']) == 0) ? '' : " DEFAULT \'{$this->array['defaultValue']}\'";
             } else {
-                $this->string .= (empty($this->array['defaultValue'])) ? '' : " DEFAULT " . $this->array['defaultValue']['expression'] . " ";
+                $this->string .= (strlen($this->array['defaultValue']) == 0) ? '' : " DEFAULT " . $this->array['defaultValue']['expression'] . " ";
             }
 		if (isset($this->array['comment']))
 			$this->string .= (empty($this->array['comment'])) ?  '' : " COMMENT \'{$this->array['comment']}\'";
