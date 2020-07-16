@@ -25,6 +25,7 @@ class DefaultController extends Controller
     {
         $view = $this->getView();
         AppAssets::register($view);
+	parent::init();
     }
 
     /**
