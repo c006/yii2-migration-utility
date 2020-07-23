@@ -53,17 +53,14 @@ to the require section of your `composer.json` file.
 Required
 --------
 
-Update either ***config/web.php*** (basic) or ***config/main.php*** (advanced)
+Update either ***config/web.php*** (basic) or common/config/main.php (advanced)
 
 >
-        'modules'    => [
-            ...
-            ...
-            ...
-            'utility' => [
-                'class' => 'c006\utility\migration\Module',
-            ],
-        ],
+       'modules' => [
+           'utility' => [
+              'class' => 'c006\utility\migration\Module',
+           ],
+       ],
 
 
 
