@@ -1,5 +1,5 @@
 <?php
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 
 /** @var $model c006\utility\migration\models\MigrationUtility */
