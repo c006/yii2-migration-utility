@@ -42,7 +42,7 @@ class AppAssets extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
         'yii\widgets\ActiveFormAsset',
-        'yii\bootstrap4\BootstrapAsset',
+        'yii\bootstrap5\BootstrapAsset',
     ];
 
     /**
